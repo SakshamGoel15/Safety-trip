@@ -2,5 +2,10 @@
   "name": "safety-trip",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "react-chartjs-2": "^2.11.1",
+    "styled-components": "^5.2.1"
+  }
 }

@@ -1,0 +1,106 @@
+.cal {
+    box-sizing: border-box;
+    font-size: 1rem;
+    max-width: 400px;
+  }
+  
+  .cal .header {
+    background-color: var(--light-blue);
+    text-align: center;
+    min-height: 2rem;
+    line-height: 2rem;
+    color: var(--black);
+    font-family: var(--font-book);
+    font-weight: 700;
+    display: flex;
+  }
+  
+  .cal .day-names {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  
+  .cal .body {
+    border: 1px solid var(--light-blue);
+  }
+  
+  .cal .header .previous {
+    flex: 1;
+    text-align: left;
+    margin-left: 1rem;
+  }
+  
+  .cal .header .next {
+    flex: 1;
+    text-align: right;
+    margin-right: 1rem;
+  }
+  
+  .cal .week {
+    background-color: white;
+    width: calc(100% / 7);
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--black);
+    font-weight: 400;
+  }
+  
+  .cal .week div {
+    width: 100%;
+  }
+  
+  .cal .day {
+    position: relative;
+    width: calc(100% / 7);
+    height: 44px;
+    display: inline-block;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    z-index: 1;
+    text-align: center;
+  }
+  
+  .cal .day div {
+    width: 54px;
+    height: 44px;
+    position: relative;
+    color: var(--black);
+    z-index: 100;
+    line-height: 44px;
+  }
+  
+  .cal .day div.before {
+    color: var(--grey);
+  }
+  
+  .cal .day div.selected {
+    background-color: var(--red);
+    color: var(--white);
+    font-weight: bold;
+  }
+  
+  .cal .day div.today {
+    background-color: var(--grey);
+  }
+  
+  .e-schedule .e-appointment-details{
+    padding: 0!important;
+  }
+  
+  .template-wrap { 
+    /* background: green; */
+    font-size: 14px;
+    font-weight: 500;
+    padding-top: 3px;
+    padding-bottom: 10px ;
+    padding-left: 30px;
+    /* padding-right:20px;  */
+    ;
+  }
