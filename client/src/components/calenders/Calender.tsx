@@ -9,7 +9,7 @@ import {
   Agenda,
   EventSettingsModel,
 } from "@syncfusion/ej2-react-schedule";
-import data, { calendarData } from "../../assets/exampleCalendarData";
+import data from "../../assets/exampleCalendarData";
 import "./stylesheet.css";
 
 class Calender extends React.Component<{}, {}> {
