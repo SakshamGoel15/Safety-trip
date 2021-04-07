@@ -4,7 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors = require("cors");
 const app = express_1.default();
+app.use(cors({
+    origin: "*",
+}));
 const port = 8080;
 app.get("/", (req, res) => {
     res.send("Hello world!");
