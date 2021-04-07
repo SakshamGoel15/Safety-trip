@@ -7,7 +7,7 @@ import {
   WorkWeek,
   Month,
   Agenda,
-  EventSettingsModel,
+  // EventSettingsModel,
 } from "@syncfusion/ej2-react-schedule";
 import data from "../../assets/exampleCalendarData";
 import "./stylesheet.css";

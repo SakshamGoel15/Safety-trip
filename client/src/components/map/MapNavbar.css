@@ -1,0 +1,31 @@
+.mapnavbar-container {
+  position: absolute;
+  z-index: 999;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 15px;
+
+  background-color: rgb(62, 62, 250);
+}
+
+.mapnavbar-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.mapnavbar-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 5px;
+}
+
+.mapnavbar-row > * {
+  padding: 0px 5px;
+}
+
+.mapnavbar-search-button {
+  height: 25px;
+  font-size: large;
+}
