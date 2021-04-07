@@ -1,15 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import Graph from './components/graphs/graph';
- import Calender from './components/calenders/Calender';
-import './App.css';
+import React from "react";
+// import Graph from "@components/graphs/graph";
+// import Calendar from "./components/calendars/Calendar";
+import Map from "./components/map/Map";
+import "./App.css";
 
 function App() {
-  return (
-  
-<Calender />
-  
-  );
+  return <Map />;
 }
 
 export default App;

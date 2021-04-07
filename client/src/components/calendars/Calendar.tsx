@@ -12,7 +12,7 @@ import {
 import data from "../../assets/exampleCalendarData";
 import "./stylesheet.css";
 
-class Calender extends React.Component<{}, {}> {
+class Calendar extends React.Component<{}, {}> {
   private eventTemplate(props: { [key: string]: Object }): JSX.Element {
     return <div className="template-wrap">{props.Subject}</div>;
   }
@@ -33,4 +33,4 @@ class Calender extends React.Component<{}, {}> {
   }
 }
 
-export default Calender;
+export default Calendar;
