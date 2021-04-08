@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import "./MapNavbar.css";
 
 interface mapNavbarProps {
@@ -22,8 +23,12 @@ const MapNavbar = (props: mapNavbarProps) => {
     });
   }, [setShowBody, props]);
 
+  const pathNames = useMemo(() => props.paths.map((_, i) => `Path #${i + 1}`), [
+    props.paths,
+  ]);
+
   return (
-    <div className="mapnavbar-container">
+    <div className={`mapnavbar-container ${showBody ? "extend-navbar" : ""}`}>
       <header className="mapnavbar-header">
         <div className="mapnavbar-row">
           <label htmlFor="origin_input">From: </label>
@@ -34,7 +39,15 @@ const MapNavbar = (props: mapNavbarProps) => {
           <input type="text" id="destination_input" ref={destinationRef} />
         </div>
         <div className="mapnavbar-row">
-          {showBody ? <h3>Path #{props.selectedPath + 1}</h3> : <div />}
+          {showBody ? (
+            <DropdownMenu
+              items={pathNames}
+              selectedIndex={props.selectedPath}
+              setSelectedIndex={props.setSelectedPath}
+            />
+          ) : (
+            <div />
+          )}
           <button className="mapnavbar-search-button" onClick={onClickSearch}>
             Search
           </button>

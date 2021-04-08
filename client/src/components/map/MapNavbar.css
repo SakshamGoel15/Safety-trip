@@ -1,15 +1,20 @@
 .mapnavbar-container {
   position: absolute;
   z-index: 999;
-  padding: 10px;
   margin: 10px;
   border-radius: 15px;
+  height: auto;
+  min-width: 20vw;
 
-  background-color: rgb(62, 62, 250);
+  background-color: white;
+  overflow: hidden;
+  transition: margin 0.5s ease, border-radius 0.5s ease, height 0.5s;
 }
 
 .mapnavbar-header {
   display: flex;
+  padding: 10px;
+  background-color: rgb(62, 62, 250);
   flex-direction: column;
 }
 
@@ -28,4 +33,14 @@
 .mapnavbar-search-button {
   height: 25px;
   font-size: large;
+}
+
+.mapnavbar-container.extend-navbar {
+  border-radius: 0px;
+  margin: 0;
+  height: 100vh;
+}
+
+.mapnavbar-main-body {
+  overflow-y: auto;
 }

@@ -12,7 +12,7 @@ function App() {
     origin: null,
     destination: null,
   });
-  const [paths, setPaths] = useState<any[]>([]);
+  const [paths, setPaths] = useState<any[]>(["a", "b", "c"]);
 
   return (
     <div className="app-container">

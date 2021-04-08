@@ -37,7 +37,7 @@ const Map = (props: mapProps) => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={uf_coords}
-        zoom={10}
+        zoom={15}
       >
         {props.origin !== "" && props.destination !== "" && (
           <DirectionsService
