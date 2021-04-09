@@ -5,6 +5,12 @@ import cors from "cors";
 oracledb.initOracleClient({ libDir: "/Users/mikhailbudko/Desktop/instantclient_19_8" })
 
 const app = express();
+app.use(
+    cors({
+        origin: "*",
+    })
+);
+
 const port = 8080; // default port to listen
 
 //setup CORS

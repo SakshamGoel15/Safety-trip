@@ -18,6 +18,9 @@ const axios_1 = __importDefault(require("axios"));
 const cors_1 = __importDefault(require("cors"));
 oracledb_1.default.initOracleClient({ libDir: "/Users/mikhailbudko/Desktop/instantclient_19_8" });
 const app = express_1.default();
+app.use(cors_1.default({
+    origin: "*",
+}));
 const port = 8080;
 app.use(cors_1.default({ origin: true }));
 app.use("/directions", function (req, res, next) {

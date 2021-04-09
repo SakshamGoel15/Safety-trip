@@ -1,0 +1,46 @@
+.mapnavbar-container {
+  position: absolute;
+  z-index: 999;
+  margin: 10px;
+  border-radius: 15px;
+  height: auto;
+  min-width: 20vw;
+
+  background-color: white;
+  overflow: hidden;
+  transition: margin 0.5s ease, border-radius 0.5s ease, height 0.5s;
+}
+
+.mapnavbar-header {
+  display: flex;
+  padding: 10px;
+  background-color: rgb(62, 62, 250);
+  flex-direction: column;
+}
+
+.mapnavbar-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 5px;
+}
+
+.mapnavbar-row > * {
+  padding: 0px 5px;
+}
+
+.mapnavbar-search-button {
+  height: 25px;
+  font-size: large;
+}
+
+.mapnavbar-container.extend-navbar {
+  border-radius: 0px;
+  margin: 0;
+  height: 100vh;
+}
+
+.mapnavbar-main-body {
+  overflow-y: auto;
+}

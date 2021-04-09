@@ -9,6 +9,7 @@
     "dev": "concurrently \"nodemon -r dotenv/config dist/index.js\" \"tsc -w\""
   },
   "devDependencies": {
+    "@types/cors": "^2.8.10",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",
     "@types/node": "^14.14.35",
@@ -20,6 +21,7 @@
   "dependencies": {
     "@types/cors": "^2.8.10",
     "axios": "^0.21.1",
+    "@googlemaps/js-api-loader": "^1.11.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

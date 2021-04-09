@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "setup": "git update-index --assume-unchanged client/.env && git update-index --assume-unchanged server/.env"
+  },
   "dependencies": {
     "chart.js": "^2.9.4",
     "react-chartjs-2": "^2.11.1",
