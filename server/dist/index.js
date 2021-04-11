@@ -17,6 +17,9 @@ const oracledb_1 = __importDefault(require("oracledb"));
 const cors_1 = __importDefault(require("cors"));
 const db_1 = require("./db");
 const main = () => {
+    oracledb_1.default.initOracleClient({
+        libDir: process.env.ORACLE_CLIENT_PATH,
+    });
     const PORT = 8080;
     const app = express_1.default();
     app.use(express_1.default.json());

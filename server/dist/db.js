@@ -15,9 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccidentsTable = exports.withDb = void 0;
 const oracledb_1 = __importDefault(require("oracledb"));
 const withDb = (res, fn) => __awaiter(void 0, void 0, void 0, function* () {
-    oracledb_1.default.initOracleClient({
-        libDir: process.env.ORACLE_CLIENT_PATH,
-    });
     let connection;
     let output;
     try {

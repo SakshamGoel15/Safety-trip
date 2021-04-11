@@ -5,10 +5,6 @@ export const withDb = async (
   res: Response,
   fn: (c: Readonly<oracledb.Connection>) => any
 ) => {
-  oracledb.initOracleClient({
-    libDir: process.env.ORACLE_CLIENT_PATH,
-  });
-
   let connection: Readonly<oracledb.Connection> | undefined;
   let output;
   try {

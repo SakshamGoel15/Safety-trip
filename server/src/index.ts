@@ -4,6 +4,10 @@ import cors from "cors";
 import { withDb, AccidentsTable } from "./db";
 
 const main = () => {
+  oracledb.initOracleClient({
+    libDir: process.env.ORACLE_CLIENT_PATH,
+  });
+
   const PORT = 8080; // default port to listen
 
   const app = express();
