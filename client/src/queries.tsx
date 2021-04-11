@@ -31,5 +31,6 @@ export const fetchAccidentsData = async (polypaths: google.maps.LatLng[][]) => {
 export const fetchTableSize = async () => {
   const url = "http://localhost:8080/table-size";
   const { data } = await axios.get(url);
+  console.log(data);
   return data;
 };

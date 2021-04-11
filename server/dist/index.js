@@ -15,49 +15,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const cors_1 = __importDefault(require("cors"));
-oracledb_1.default.initOracleClient({
-    libDir: process.env.ORACLE_CLIENT_PATH,
-});
-const port = 8080;
-const app = express_1.default();
-app.use(express_1.default.json());
-app.use(cors_1.default({ origin: true }));
-app.get("/", (req, res) => {
-    res.send("Hello world!");
-});
-app.get("/connect", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let connection;
-    try {
-        connection = yield oracledb_1.default.getConnection({
-            user: process.env.ORACLE_USER,
-            password: process.env.ORACLE_PASSWD,
-            connectString: "oracle.cise.ufl.edu/orcl",
-        });
-        res.send("Successfully connected to Oracle!");
-    }
-    catch (err) {
-        res.send("Error: " + err);
-    }
-    finally {
-        if (connection) {
-            try {
-                yield connection.close();
-            }
-            catch (err) {
-                res.send("Error when closing the database connection: " + err);
+const db_1 = require("./db");
+const main = () => {
+    const PORT = 8080;
+    const app = express_1.default();
+    app.use(express_1.default.json());
+    app.use(cors_1.default({ origin: true }));
+    app.get("/", (req, res) => {
+        res.send("Hello world!");
+    });
+    app.get("/connect", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield oracledb_1.default.getConnection({
+                user: process.env.ORACLE_USER,
+                password: process.env.ORACLE_PASSWD,
+                connectString: "oracle.cise.ufl.edu/orcl",
+            });
+            res.send("Successfully connected to Oracle!");
+        }
+        catch (err) {
+            res.send("Error: " + err);
+        }
+        finally {
+            if (connection) {
+                try {
+                    yield connection.close();
+                }
+                catch (err) {
+                    res.send("Error when closing the database connection: " + err);
+                }
             }
         }
-    }
-}));
-app.get("/table-size", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send({ number_accidents: "We don't have that yet" });
-}));
-app.post("/process", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send([]);
-    const { polypaths } = req.body;
-    console.log(polypaths);
-}));
-app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
-});
+    }));
+    app.get("/table-size", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield db_1.withDb(res, (db) => __awaiter(void 0, void 0, void 0, function* () { return yield db.execute(`SELECT COUNT(ID) FROM ${db_1.AccidentsTable}`); }));
+        res.send({ number_accidents: result.rows[0][0] });
+    }));
+    app.post("/process", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.send([]);
+        const { polypaths } = req.body;
+        console.log(polypaths);
+    }));
+    app.listen(PORT, () => {
+        console.log(`server started at http://localhost:${PORT}`);
+    });
+};
+main();
 //# sourceMappingURL=index.js.map
