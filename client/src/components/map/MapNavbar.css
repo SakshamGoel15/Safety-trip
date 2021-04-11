@@ -24,6 +24,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 5px;
+  
 }
 
 .mapnavbar-row > * {
@@ -33,14 +34,19 @@
 .mapnavbar-search-button {
   height: 25px;
   font-size: large;
+  
 }
 
 .mapnavbar-container.extend-navbar {
   border-radius: 0px;
   margin: 0;
   height: 100vh;
+  width: 55vh;
 }
 
 .mapnavbar-main-body {
   overflow-y: auto;
+  max-height: 580px;
+  max-width: 600px;
+  margin: 12px;
 }
