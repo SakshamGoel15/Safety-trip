@@ -8,7 +8,7 @@ import { uf_coords, mapContainerStyle } from "../../assets/map_info";
 import { mapPathEndpoints } from "./Map.d";
 
 interface mapProps extends mapPathEndpoints {
-  highlightedPathIndex: number;
+  selectedPathIndex: number;
   setPolypaths: React.Dispatch<React.SetStateAction<google.maps.LatLng[][]>>;
   origin: string;
   destination: string;
@@ -31,6 +31,7 @@ const Map = (props: mapProps) => {
       origin: props.origin,
       destination: props.destination,
       travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: true,
     }),
     [props.origin, props.destination]
   );
@@ -47,12 +48,23 @@ const Map = (props: mapProps) => {
           callback={onDirectionsReceived}
         />
       )}
-      {directions !== undefined && (
-        <DirectionsRenderer
-          directions={directions}
-          routeIndex={props.highlightedPathIndex}
-        />
-      )}
+      {directions !== undefined &&
+        directions.routes.map((_, i) => (
+          <DirectionsRenderer
+            key={i}
+            directions={directions}
+            routeIndex={i}
+            options={{
+              polylineOptions: {
+                strokeColor:
+                  props.selectedPathIndex === i
+                    ? "rgb(16, 108, 179)"
+                    : "rgba(83, 169, 235, 0.7)",
+                strokeWeight: props.selectedPathIndex === i ? 10 : 5,
+              },
+            }}
+          />
+        ))}
     </GoogleMap>
   );
 };

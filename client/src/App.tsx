@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { QueryFunctionContext, useQuery } from "react-query";
 // import Graph from "@components/graphs/graph";
 // import Calendar from "./components/calendars/Calendar";
 import MapNavbar from "./components/map/MapNavbar";
@@ -7,6 +7,10 @@ import Map from "./components/map/Map";
 import { fetchAccidentsData } from "./queries";
 import "./App.css";
 import { mapPathEndpoints } from "./components/map/Map.d";
+
+const accidentsDataQuery = (
+  context: QueryFunctionContext<(string | google.maps.LatLng[][])[], any>
+) => fetchAccidentsData(context.queryKey[1] as google.maps.LatLng[][]);
 
 function App() {
   const [selectedPath, setSelectedPath] = useState(0);
@@ -18,7 +22,7 @@ function App() {
 
   const { data, status } = useQuery(
     ["processed_paths_data", polypaths],
-    (context) => fetchAccidentsData(context.queryKey[1] as typeof polypaths)
+    accidentsDataQuery
   );
 
   return (
@@ -31,7 +35,7 @@ function App() {
         queryStatus={status}
       />
       <Map
-        highlightedPathIndex={selectedPath}
+        selectedPathIndex={selectedPath}
         setPolypaths={setPolypaths}
         {...searchedEndpoints}
       />

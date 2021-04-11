@@ -28,8 +28,6 @@ const MapNavbar = (props: mapNavbarProps) => {
   }, [setShowBody, props]);
 
   const pathNames = useMemo(() => {
-    console.log("paths data:");
-    console.log(props.pathsData);
     if (!props.pathsData) return [];
     return props.pathsData.map((_, i) => `Path #${i + 1}`);
   }, [props.pathsData]);

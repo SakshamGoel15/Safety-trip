@@ -24,8 +24,6 @@ export const fetchAccidentsData = async (polypaths: google.maps.LatLng[][]) => {
     polypaths: polypaths,
   });
 
-  console.log(res);
-
   console.log(res.data);
   return res.data;
 };
