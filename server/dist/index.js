@@ -55,6 +55,7 @@ app.get("/table-size", (req, res) => __awaiter(void 0, void 0, void 0, function*
 app.post("/process", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send([]);
     const { polypaths } = req.body;
+    console.log(polypaths);
 }));
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);

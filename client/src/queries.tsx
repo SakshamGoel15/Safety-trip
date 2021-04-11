@@ -1,6 +1,5 @@
 import axios from "axios";
 import { QueryClient } from "react-query";
-import { mapPathEndpoints } from "./components/map/Map.d";
 
 export const queryClient = new QueryClient();
 

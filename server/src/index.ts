@@ -46,7 +46,7 @@ app.post("/process", async (req, res) => {
   res.send([]);
 
   const { polypaths } = req.body;
-  // console.log(polypaths);
+  console.log(polypaths);
 });
 
 // start the Express server

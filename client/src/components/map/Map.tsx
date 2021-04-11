@@ -22,6 +22,7 @@ const Map = (props: mapProps) => {
       setDirections(res);
       props.setPolypaths(res.routes.map((e) => e.overview_path));
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
