@@ -1,12 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { QueryClientProvider } from "react-query";
+import { LoadScript } from "@react-google-maps/api";
 import "./index.css";
 import App from "./App";
+import { queryClient } from "./queries";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <LoadScript
+        googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY as string}
+      >
+        <App />
+      </LoadScript>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

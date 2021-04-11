@@ -14,22 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
-const axios_1 = __importDefault(require("axios"));
 const cors_1 = __importDefault(require("cors"));
 oracledb_1.default.initOracleClient({
     libDir: process.env.ORACLE_CLIENT_PATH,
 });
-const app = express_1.default();
-app.use(cors_1.default({
-    origin: "*",
-}));
 const port = 8080;
+const app = express_1.default();
+app.use(express_1.default.json());
 app.use(cors_1.default({ origin: true }));
-app.use("/directions", function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 app.get("/", (req, res) => {
     res.send("Hello world!");
 });
@@ -57,14 +49,12 @@ app.get("/connect", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
     }
 }));
-app.get("/directions/:origin&:destination", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const origin = req.params.origin;
-    const destination = req.params.destination;
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_API_KEY}`;
-    const response = yield axios_1.default.get(url);
-    res.send({
-        directions: response.data,
-    });
+app.get("/table-size", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send({ number_accidents: "We don't have that yet" });
+}));
+app.post("/process", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send([]);
+    const { polypaths } = req.body;
 }));
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);

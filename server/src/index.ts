@@ -1,31 +1,15 @@
 import express from "express";
 import oracledb from "oracledb";
-import axios from "axios";
 import cors from "cors";
 
 oracledb.initOracleClient({
   libDir: process.env.ORACLE_CLIENT_PATH,
 });
-
-const app = express();
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
 const port = 8080; // default port to listen
 
-//setup CORS
+const app = express();
+app.use(express.json());
 app.use(cors({ origin: true }));
-app.use("/directions", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 // define a route handler for the default home page
 app.get("/", (req, res) => {
@@ -54,14 +38,15 @@ app.get("/connect", async (req, res) => {
   }
 });
 
-app.get("/directions/:origin&:destination", async (req, res) => {
-  const origin = req.params.origin;
-  const destination = req.params.destination;
-  const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_API_KEY}`;
-  const response = await axios.get(url);
-  res.send({
-    directions: response.data,
-  });
+app.get("/table-size", async (req, res) => {
+  res.send({ number_accidents: "We don't have that yet" });
+});
+
+app.post("/process", async (req, res) => {
+  res.send([]);
+
+  const { polypaths } = req.body;
+  // console.log(polypaths);
 });
 
 // start the Express server

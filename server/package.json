@@ -20,7 +20,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "@googlemaps/google-maps-services-js": "^3.1.16",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "oracledb": "^5.1.0"

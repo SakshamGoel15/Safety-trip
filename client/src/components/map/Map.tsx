@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   GoogleMap,
-  LoadScript,
   DirectionsRenderer,
   DirectionsService,
 } from "@react-google-maps/api";
@@ -9,55 +8,51 @@ import { uf_coords, mapContainerStyle } from "../../assets/map_info";
 import { mapPathEndpoints } from "./Map.d";
 
 interface mapProps extends mapPathEndpoints {
-  highlightedPathIndex?: number;
+  highlightedPathIndex: number;
+  setPolypaths: React.Dispatch<React.SetStateAction<google.maps.LatLng[][]>>;
+  origin: string;
+  destination: string;
 }
 
 const Map = (props: mapProps) => {
-  const [response, setResponse] = useState(null);
+  const [directions, setDirections] = useState<google.maps.DirectionsResult>();
 
-  const directionsCallback = useCallback(
-    (res: any) => {
-      console.log(res);
-
-      if (res !== null) {
-        if (res.status === "OK") {
-          setResponse(res);
-        } else {
-          console.log("ERROR in Request: ", res);
-        }
-      }
+  const onDirectionsReceived = useCallback(
+    (res: google.maps.DirectionsResult) => {
+      setDirections(res);
+      props.setPolypaths(res.routes.map((e) => e.overview_path));
     },
-    [setResponse]
+    []
+  );
+
+  const directionsServiceOptions: google.maps.DirectionsRequest = useMemo(
+    () => ({
+      origin: props.origin,
+      destination: props.destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }),
+    [props.origin, props.destination]
   );
 
   return (
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY as string}
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      center={uf_coords}
+      zoom={15}
     >
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={uf_coords}
-        zoom={15}
-      >
-        {props.origin !== "" && props.destination !== "" && (
-          <DirectionsService
-            options={{
-              origin: props.origin,
-              destination: props.destination,
-              travelMode: "DRIVING",
-            }}
-            callback={directionsCallback}
-          />
-        )}
-
-        {response !== null && (
-          <DirectionsRenderer
-            options={{ directions: response }}
-            routeIndex={props.highlightedPathIndex || 0}
-          />
-        )}
-      </GoogleMap>
-    </LoadScript>
+      {props.origin !== "" && props.destination !== "" && (
+        <DirectionsService
+          options={directionsServiceOptions}
+          callback={onDirectionsReceived}
+        />
+      )}
+      {directions !== undefined && (
+        <DirectionsRenderer
+          directions={directions}
+          routeIndex={props.highlightedPathIndex}
+        />
+      )}
+    </GoogleMap>
   );
 };
 

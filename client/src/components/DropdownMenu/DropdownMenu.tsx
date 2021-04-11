@@ -4,7 +4,7 @@ import "./DropdownMenu.css";
 interface dropdownProps {
   items: string[];
   selectedIndex: number;
-  setSelectedIndex: Function;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const DropdownMenu = (props: dropdownProps) => {

@@ -1,12 +1,16 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
+import { ProcessedPathData } from "../../queries";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import { mapPathEndpoints } from "./Map.d";
 import "./MapNavbar.css";
+import { QueryStatus } from "react-query";
 
 interface mapNavbarProps {
-  onSearch: Function;
+  onSearch: React.Dispatch<React.SetStateAction<mapPathEndpoints>>;
   selectedPath: number;
-  setSelectedPath: Function;
-  paths: any[];
+  setSelectedPath: React.Dispatch<React.SetStateAction<number>>;
+  pathsData: ProcessedPathData[] | undefined;
+  queryStatus: QueryStatus;
 }
 
 const MapNavbar = (props: mapNavbarProps) => {
@@ -18,14 +22,17 @@ const MapNavbar = (props: mapNavbarProps) => {
   const onClickSearch = useCallback(() => {
     setShowBody(true);
     props.onSearch({
-      origin: originRef.current?.value,
-      destination: destinationRef.current?.value,
+      origin: originRef.current?.value ?? "",
+      destination: destinationRef.current?.value ?? "",
     });
   }, [setShowBody, props]);
 
-  const pathNames = useMemo(() => props.paths.map((_, i) => `Path #${i + 1}`), [
-    props.paths,
-  ]);
+  const pathNames = useMemo(() => {
+    console.log("paths data:");
+    console.log(props.pathsData);
+    if (!props.pathsData) return [];
+    return props.pathsData.map((_, i) => `Path #${i + 1}`);
+  }, [props.pathsData]);
 
   return (
     <div className={`mapnavbar-container ${showBody ? "extend-navbar" : ""}`}>
@@ -39,7 +46,7 @@ const MapNavbar = (props: mapNavbarProps) => {
           <input type="text" id="destination_input" ref={destinationRef} />
         </div>
         <div className="mapnavbar-row">
-          {showBody ? (
+          {props.pathsData && props.pathsData.length > 0 ? (
             <DropdownMenu
               items={pathNames}
               selectedIndex={props.selectedPath}
@@ -53,7 +60,13 @@ const MapNavbar = (props: mapNavbarProps) => {
           </button>
         </div>
       </header>
-      {showBody && <main className="mapnavbar-main-body">Hello World</main>}
+      {showBody && (
+        <main className="mapnavbar-main-body">
+          {props.queryStatus === "success"
+            ? props.pathsData
+            : props.queryStatus}
+        </main>
+      )}
     </div>
   );
 };
