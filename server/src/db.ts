@@ -39,17 +39,6 @@ export const withDb = async (
 
 export const AccidentsTable = "adolago.US_TRAFFIC_ACCIDENTS";
 
-export const boundingBoxRange = 10;
-
-export const boundingBoxQuery = `SELECT *
-FROM ${AccidentsTable}
-WHERE ${AccidentsTable}.START_LAT
-   BETWEEN :lat  - (${boundingBoxRange} / 111.045)
-       AND :lat + (${boundingBoxRange} / 111.045)
-  AND ${AccidentsTable}.START_LNG
-   BETWEEN :lng - (${boundingBoxRange} / (111.045* COS( :lat /57.29577951308232087679815481410517033235)))
-       AND :lng + (${boundingBoxRange} / (111.045 * COS( :lat /57.29577951308232087679815481410517033235)))`;
-
 export const NaiveQuery = (geo: GeoPair, tableName: string = AccidentsTable) =>
   `(SELECT * FROM ${tableName} WHERE ABS(${tableName}.START_LAT - (${geo.lat})) < 0.001 AND ABS(${tableName}.START_LNG - (${geo.lng})) < 0.001)`;
 
@@ -80,14 +69,3 @@ export interface GeoPair {
   lat: number;
   lng: number;
 }
-
-export const boundingBoxQueryOptions = {
-  bindDefs: {
-    lat: {
-      type: oracledb.NUMBER,
-    },
-    lng: {
-      type: oracledb.NUMBER,
-    },
-  },
-};

@@ -60,7 +60,7 @@ const main = () => {
 
     const simplifiedPolypaths = polypaths.map((e: any) => {
       let lastAdded = e[0];
-      return e.filter((_, i: number) => {
+      return e.filter((_: any, i: number) => {
         if (i == 0) return true;
 
         if (
