@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const cors_1 = __importDefault(require("cors"));
 const db_1 = require("./db");
+const axios_1 = __importDefault(require("axios"));
 const main = () => {
     oracledb_1.default.initOracleClient({
         libDir: process.env.ORACLE_CLIENT_PATH,
@@ -56,9 +57,40 @@ const main = () => {
         res.send({ number_accidents: result.rows[0][0] });
     }));
     app.post("/process", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        res.send([]);
         const { polypaths } = req.body;
-        console.log(polypaths);
+        const url = (lat, lng) => `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLE_API_KEY}`;
+        const simplifiedPolypaths = polypaths.map((e) => {
+            let lastAdded = e[0];
+            return e.filter((_, i) => {
+                if (i == 0)
+                    return true;
+                if (Math.abs(lastAdded.lat - e[i].lat) +
+                    Math.abs(lastAdded.lng - e[i].lng) >
+                    0.02) {
+                    lastAdded = e[i];
+                    return true;
+                }
+                return false;
+            });
+        });
+        console.log(simplifiedPolypaths);
+        const routes = yield Promise.all(simplifiedPolypaths.map((e) => Promise.all(e.map((el) => axios_1.default.get(url(el.lat, el.lng))))));
+        const codes = [];
+        routes.forEach((e) => {
+            const codeSet = new Set();
+            e.forEach((el) => {
+                el.data.results.forEach((ele) => {
+                    if (ele.address_components.slice(-1)[0].types.includes("postal_code"))
+                        codeSet.add(ele.address_components.slice(-1)[0].long_name);
+                });
+            });
+            codes.push([...codeSet]);
+        });
+        console.log(codes);
+        const query = db_1.OptimizedQuery(simplifiedPolypaths[0], codes[0]);
+        const result = yield db_1.withDb(res, (db) => __awaiter(void 0, void 0, void 0, function* () { return yield db.execute(query); }));
+        console.log(result);
+        res.send(result.rows);
     }));
     app.listen(PORT, () => {
         console.log(`server started at http://localhost:${PORT}`);

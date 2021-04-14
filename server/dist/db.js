@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AccidentsTable = exports.withDb = void 0;
+exports.boundingBoxQueryOptions = exports.OptimizedQuery = exports.ZipcodeQuery = exports.composeQuery = exports.NaiveQuery = exports.boundingBoxQuery = exports.boundingBoxRange = exports.AccidentsTable = exports.withDb = void 0;
 const oracledb_1 = __importDefault(require("oracledb"));
 const withDb = (res, fn) => __awaiter(void 0, void 0, void 0, function* () {
     let connection;
@@ -50,4 +50,40 @@ const withDb = (res, fn) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.withDb = withDb;
 exports.AccidentsTable = "adolago.US_TRAFFIC_ACCIDENTS";
+exports.boundingBoxRange = 10;
+exports.boundingBoxQuery = `SELECT *
+FROM ${exports.AccidentsTable}
+WHERE ${exports.AccidentsTable}.START_LAT
+   BETWEEN :lat  - (${exports.boundingBoxRange} / 111.045)
+       AND :lat + (${exports.boundingBoxRange} / 111.045)
+  AND ${exports.AccidentsTable}.START_LNG
+   BETWEEN :lng - (${exports.boundingBoxRange} / (111.045* COS( :lat /57.29577951308232087679815481410517033235)))
+       AND :lng + (${exports.boundingBoxRange} / (111.045 * COS( :lat /57.29577951308232087679815481410517033235)))`;
+const NaiveQuery = (geo, tableName = exports.AccidentsTable) => `(SELECT * FROM ${tableName} WHERE ABS(${tableName}.START_LAT - (${geo.lat})) < 0.001 AND ABS(${tableName}.START_LNG - (${geo.lng})) < 0.001)`;
+exports.NaiveQuery = NaiveQuery;
+const composeQuery = (path, tableName = exports.AccidentsTable) => {
+    const header = "SELECT START_LAT, START_LNG, START_TIME, SEVERITY FROM (";
+    const footer = ")";
+    const body = path
+        .map((geo) => exports.NaiveQuery(geo, exports.AccidentsTable))
+        .join(" UNION ");
+    return [header, body, footer].join("");
+};
+exports.composeQuery = composeQuery;
+const ZipcodeQuery = (zip) => `SELECT * FROM ${exports.AccidentsTable} WHERE ZIPCODE IN (${zip
+    .map((e) => `('${e}')`)
+    .join()})`;
+exports.ZipcodeQuery = ZipcodeQuery;
+const OptimizedQuery = (path, zip) => `WITH NARROWED_DOWN AS (${exports.ZipcodeQuery(zip)}) ${exports.composeQuery(path, "NARROWED_DOWN")}`;
+exports.OptimizedQuery = OptimizedQuery;
+exports.boundingBoxQueryOptions = {
+    bindDefs: {
+        lat: {
+            type: oracledb_1.default.NUMBER,
+        },
+        lng: {
+            type: oracledb_1.default.NUMBER,
+        },
+    },
+};
 //# sourceMappingURL=db.js.map

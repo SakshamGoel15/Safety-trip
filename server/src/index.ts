@@ -1,7 +1,8 @@
 import express from "express";
 import oracledb from "oracledb";
 import cors from "cors";
-import { withDb, AccidentsTable } from "./db";
+import { withDb, AccidentsTable, OptimizedQuery } from "./db";
+import axios from "axios";
 
 const main = () => {
   oracledb.initOracleClient({
@@ -51,10 +52,60 @@ const main = () => {
   });
 
   app.post("/process", async (req, res) => {
-    res.send([]);
-
     const { polypaths } = req.body;
-    console.log(polypaths);
+    const url = (lat: number, lng: number) =>
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLE_API_KEY}`;
+
+    // console.log(polypaths);
+
+    const simplifiedPolypaths = polypaths.map((e: any) => {
+      let lastAdded = e[0];
+      return e.filter((_, i: number) => {
+        if (i == 0) return true;
+
+        if (
+          Math.abs(lastAdded.lat - e[i].lat) +
+            Math.abs(lastAdded.lng - e[i].lng) >
+          0.02
+        ) {
+          lastAdded = e[i];
+          return true;
+        }
+        return false;
+      });
+    });
+
+    console.log(simplifiedPolypaths);
+
+    const routes = await Promise.all(
+      simplifiedPolypaths.map((e: any) =>
+        Promise.all(e.map((el: any) => axios.get(url(el.lat, el.lng))))
+      )
+    );
+
+    const codes: string[][] = [];
+    routes.forEach((e: any) => {
+      const codeSet = new Set<string>();
+      e.forEach((el: any) => {
+        el.data.results.forEach((ele: any) => {
+          if (ele.address_components.slice(-1)[0].types.includes("postal_code"))
+            codeSet.add(ele.address_components.slice(-1)[0].long_name);
+        });
+      });
+
+      codes.push([...codeSet]);
+    });
+
+    console.log(codes);
+
+    // console.log(ZipcodeQuery(codes[0]));
+
+    const query = OptimizedQuery(simplifiedPolypaths[0], codes[0]);
+
+    const result = await withDb(res, async (db) => await db.execute(query));
+
+    console.log(result);
+    res.send(result.rows);
   });
 
   // start the Express server
