@@ -4,6 +4,7 @@ import { QueryFunctionContext, useQuery } from "react-query";
 // import Calendar from "./components/calendars/Calendar";
 import MapNavbar from "./components/map/MapNavbar";
 import Map from "./components/map/Map";
+import TableSizeButton from "./components/TableSizeButton";
 import { fetchAccidentsData } from "./queries";
 import "./App.css";
 import { mapPathEndpoints } from "./components/map/Map.d";
@@ -39,6 +40,7 @@ function App() {
         setPolypaths={setPolypaths}
         {...searchedEndpoints}
       />
+      <TableSizeButton />
     </div>
   );
 }

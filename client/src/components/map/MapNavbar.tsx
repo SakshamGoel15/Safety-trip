@@ -61,7 +61,7 @@ const MapNavbar = (props: mapNavbarProps) => {
       {showBody && (
         <main className="mapnavbar-main-body">
           {props.queryStatus === "success"
-            ? props.pathsData
+            ? "here" //props.pathsData
             : props.queryStatus}
         </main>
       )}
