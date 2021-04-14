@@ -149,7 +149,7 @@ const main = () => {
                 var date = "" + a[0]
                 console.log(date)
                 var month = date.substring(4, 7)
-                var thisDate = date.substring(0, 4) + "/" + MONTHS[month] + "/" + date.substring(8, 10)
+                var thisDate = date.substring(11, 15) + "/" + MONTHS[month] + "/" + date.substring(8, 10)
                 console.log(thisDate)
                 var c = new Date(thisDate);
                 date = "" + b[0]
@@ -188,7 +188,7 @@ const main = () => {
                         distYear.push(yearCount);
                     };
 
-                    yearCount = 0;
+                    yearCount = 1;
                     currentYear = thisDate
                 }
                 if (diffWeek < 604800000) {
@@ -197,7 +197,7 @@ const main = () => {
                     if (weekCount > 0) {
                         distWeek.push(weekCount);
                     };
-                    weekCount = 0;
+                    weekCount = 1;
                     currentWeek = thisDate
                 }
                 if (diffMonth < 2202000000) {
@@ -206,7 +206,7 @@ const main = () => {
                     if (monthCount > 0) {
                         distMonth.push(monthCount)
                     };
-                    monthCount = 0;
+                    monthCount = 1;
                     currentMonth = thisDate
                 }
             }
