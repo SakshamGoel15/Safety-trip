@@ -1,4 +1,4 @@
-export type pathEndpoint = string | null;
+export type pathEndpoint = string;
 
 export interface mapPathEndpoints {
   origin: pathEndpoint;

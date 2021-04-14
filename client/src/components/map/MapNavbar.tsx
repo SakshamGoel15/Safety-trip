@@ -6,14 +6,18 @@ import YearlyWidgets from "../Widgets/YearlyWidgets/YearlyWidgets";
 import DangerIndex from "../Widgets/Dangerindex/DangerWidgets";
 import Route from "../Router/Route";
 
+import { ProcessedPathData } from "../../queries";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import { QueryStatus } from "react-query";
+import { mapPathEndpoints } from "./Map.d";
 import "./MapNavbar.css";
 
 interface mapNavbarProps {
-  onSearch: Function;
+  onSearch: React.Dispatch<React.SetStateAction<mapPathEndpoints>>;
   selectedPath: number;
-  setSelectedPath: Function;
-  paths: any[];
+  setSelectedPath: React.Dispatch<React.SetStateAction<number>>;
+  pathsData: ProcessedPathData[] | undefined;
+  queryStatus: QueryStatus;
 }
 
 const MapNavbar = (props: mapNavbarProps) => {
@@ -25,14 +29,15 @@ const MapNavbar = (props: mapNavbarProps) => {
   const onClickSearch = useCallback(() => {
     setShowBody(true);
     props.onSearch({
-      origin: originRef.current?.value,
-      destination: destinationRef.current?.value,
+      origin: originRef.current?.value ?? "",
+      destination: destinationRef.current?.value ?? "",
     });
   }, [setShowBody, props]);
 
-  const pathNames = useMemo(() => props.paths.map((_, i) => `Path #${i + 1}`), [
-    props.paths,
-  ]);
+  const pathNames = useMemo(() => {
+    if (!props.pathsData) return [];
+    return props.pathsData.map((_, i) => `Path #${i + 1}`);
+  }, [props.pathsData]);
 
   return (
     <div className={`mapnavbar-container ${showBody ? "extend-navbar" : ""}`}>
@@ -56,7 +61,7 @@ const MapNavbar = (props: mapNavbarProps) => {
           />
         </div>
         <div className="mapnavbar-row">
-          {showBody ? (
+          {props.pathsData && props.pathsData.length > 0 ? (
             <DropdownMenu
               items={pathNames}
               selectedIndex={props.selectedPath}
@@ -72,23 +77,27 @@ const MapNavbar = (props: mapNavbarProps) => {
       </header>
       {showBody && (
         <main className="mapnavbar-main-body">
-          <div>
-            <Route path="/">
-              <Widgets />
-            </Route>
-            <Route path="/DangerIndex">
-              <DangerIndex />
-            </Route>
-            <Route path="/Month">
-              <MonWidgets />
-            </Route>
-            <Route path="/Week">
-              <WeekWidgets />
-            </Route>
-            <Route path="/Year">
-              <YearlyWidgets />
-            </Route>
-          </div>
+          {props.queryStatus !== "success" ? (
+            props.queryStatus
+          ) : (
+            <div>
+              <Route path="/">
+                <Widgets />
+              </Route>
+              <Route path="/DangerIndex">
+                <DangerIndex />
+              </Route>
+              <Route path="/Month">
+                <MonWidgets />
+              </Route>
+              <Route path="/Week">
+                <WeekWidgets />
+              </Route>
+              <Route path="/Year">
+                <YearlyWidgets />
+              </Route>
+            </div>
+          )}
         </main>
       )}
     </div>

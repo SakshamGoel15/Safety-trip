@@ -1,0 +1,9 @@
+.table-size-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
