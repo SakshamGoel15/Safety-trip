@@ -100,12 +100,17 @@ const main = () => {
 
     // console.log(ZipcodeQuery(codes[0]));
 
-    const query = OptimizedQuery(simplifiedPolypaths[0], codes[0]);
+    const queries = simplifiedPolypaths.map((_: any, i: number) =>
+      OptimizedQuery(simplifiedPolypaths[i], codes[i])
+    );
 
-    const result = await withDb(res, async (db) => await db.execute(query));
+    const result = await withDb(
+      res,
+      async (db) => await Promise.all(queries.map((e: string) => db.execute(e)))
+    );
 
-    console.log(result);
-    res.send(result.rows);
+    // console.log(result);
+    res.send(result.map((e: any) => e.rows));
   });
 
   // start the Express server

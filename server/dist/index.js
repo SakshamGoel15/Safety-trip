@@ -87,10 +87,9 @@ const main = () => {
             codes.push([...codeSet]);
         });
         console.log(codes);
-        const query = db_1.OptimizedQuery(simplifiedPolypaths[0], codes[0]);
-        const result = yield db_1.withDb(res, (db) => __awaiter(void 0, void 0, void 0, function* () { return yield db.execute(query); }));
-        console.log(result);
-        res.send(result.rows);
+        const queries = simplifiedPolypaths.map((_, i) => db_1.OptimizedQuery(simplifiedPolypaths[i], codes[i]));
+        const result = yield db_1.withDb(res, (db) => __awaiter(void 0, void 0, void 0, function* () { return yield Promise.all(queries.map((e) => db.execute(e))); }));
+        res.send(result.map((e) => e.rows));
     }));
     app.listen(PORT, () => {
         console.log(`server started at http://localhost:${PORT}`);
