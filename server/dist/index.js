@@ -123,13 +123,21 @@ const main = () => {
             var weekCount = 0;
             var date = "" + arr[0];
             var month = date.substring(5, 7);
-            var currentYear = date.substring(0, 4) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
+            var currentYear = date.substring(0, 4) +
+                "/" +
+                MONTHS[month] +
+                "/" +
+                date.substring(8, 10);
             var currentMonth = currentYear;
             var currentWeek = currentYear;
             for (let a of arr) {
                 date = "" + a;
                 month = date.substring(4, 7);
-                var thisDate = date.substring(0, 4) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
+                var thisDate = date.substring(0, 4) +
+                    "/" +
+                    MONTHS[month] +
+                    "/" +
+                    date.substring(8, 10);
                 var diffYear = Math.abs(new Date(thisDate).getTime() - new Date(currentYear).getTime());
                 var diffWeek = Math.abs(new Date(thisDate).getTime() - new Date(currentWeek).getTime());
                 var diffMonth = Math.abs(new Date(thisDate).getTime() - new Date(currentMonth).getTime());
@@ -140,7 +148,6 @@ const main = () => {
                     if (yearCount > 0) {
                         distYear.push(yearCount);
                     }
-                    ;
                     yearCount = 0;
                     currentYear = thisDate;
                 }
@@ -151,7 +158,6 @@ const main = () => {
                     if (weekCount > 0) {
                         distWeek.push(weekCount);
                     }
-                    ;
                     weekCount = 0;
                     currentWeek = thisDate;
                 }
@@ -162,7 +168,6 @@ const main = () => {
                     if (monthCount > 0) {
                         distMonth.push(monthCount);
                     }
-                    ;
                     monthCount = 0;
                     currentMonth = thisDate;
                 }
@@ -179,7 +184,7 @@ const main = () => {
                 danger_index: 6,
                 distribution_weekly: distWeek,
                 distribution_monthly: distMonth,
-                distribution_yearly: distYear
+                distribution_yearly: distYear,
             });
         }
         res.send(response);
