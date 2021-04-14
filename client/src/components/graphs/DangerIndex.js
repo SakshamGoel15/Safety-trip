@@ -5,11 +5,8 @@ import Link from "../Router/Link";
 
 const computeDangerIndex = (danger_dist) => {
   const sum = danger_dist.reduce((acc, curr) => acc + curr);
-  const weightedSum = danger_dist.reduce(
-    (acc, curr, index) => acc + (index + 1) * curr
-  );
 
-  return Math.floor(weightedSum / sum);
+  return Math.floor(sum / danger_dist.length) - 1;
 };
 
 const Severity = (danger_dist) => {
@@ -24,7 +21,7 @@ const DangerIndex = (props) => {
           width={290}
           height={190}
           needleHeightRatio={0.5}
-          value={Severity([200, 2, 125, 3])}
+          value={Severity(props.danger_dist)}
           maxValue={200}
           segments={4}
           currentValueText="Danger Index"
@@ -60,7 +57,7 @@ const DangerIndex = (props) => {
           labelFontSize={"10px"}
         />
       </div>
-      <div>
+      {/* <div>
         <Button
           style={{
             color: "blue",
@@ -71,7 +68,7 @@ const DangerIndex = (props) => {
         >
           <Link href="/DangerIndex">Click here for more</Link>
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import MonthlyGraph from "../graphs/MonthlyGraph";
 import WeeklyGraph from "../graphs/WeeklyGraphs";
 import YearlyGraph from "../graphs/YearlyGraphs";
@@ -16,7 +16,7 @@ const Widgets = (props: WidgetsProps) => {
   return (
     <React.Fragment>
       <Card style={{ maxHeight: "5000px", marginLeft: "45px" }}>
-        <DangerIndex data={props.data.danger_index} />
+        <DangerIndex danger_dist={props.data.severity_yearly} />
       </Card>
       <Card style={{ marginLeft: "45px" }}>
         <AverageCard {...props.data.recent_accidents} />

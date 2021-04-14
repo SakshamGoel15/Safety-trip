@@ -7,7 +7,7 @@ import Link from "../Router/Link";
 
 const state = {
   /*labele represent the data on the x-axis*/
-  labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+  labels: ["2015", "2016", "2017", "2018", "2019"],
   datasets: [
     {
       label: "NO OF ACCIDENT",

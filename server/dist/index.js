@@ -104,87 +104,129 @@ const main = () => {
             Nov: 11,
         };
         let response = [];
-        var Arr = [[]];
+        var count = 0;
+        var Arr = [];
         for (let r of result) {
             var a = [];
             var rows = r.rows;
             for (let row of rows) {
-                a.push(row[2]);
+                var inArr = [];
+                inArr.push(row[2]);
+                inArr.push(row[3]);
+                if (inArr.length > 0) {
+                    a.push(inArr);
+                }
             }
-            Arr.push(a);
+            if (a.length > 0) {
+                Arr.push(a);
+            }
         }
         console.log(Arr);
         for (let arr of Arr) {
+            arr.sort(function (a, b) {
+                var date = "" + a[0];
+                console.log(date);
+                var month = date.substring(4, 7);
+                var thisDate = date.substring(11, 15) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
+                console.log(thisDate);
+                var c = new Date(thisDate);
+                date = "" + b[0];
+                month = date.substring(4, 7);
+                thisDate = date.substring(11, 15) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
+                var d = new Date(thisDate);
+                return c.getTime() - d.getTime();
+            });
             var distYear = [];
             var distMonth = [];
             var distWeek = [];
+            var distSeverityWeek = [];
+            var distSeverityYear = [];
+            var distSeverityMonth = [];
             var yearCount = 0;
+            var severityWeek = 0;
+            var severityMonth = 0;
+            var severityYear = 0;
             var monthCount = 0;
+            var countRecent = 0;
             var weekCount = 0;
-            var date = "" + arr[0];
-            var month = date.substring(5, 7);
-            var currentYear = date.substring(0, 4) +
-                "/" +
-                MONTHS[month] +
-                "/" +
-                date.substring(8, 10);
+            var date = "" + arr[0][0];
+            var month = date.substring(4, 7);
+            var currentYear = date.substring(11, 15) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
             var currentMonth = currentYear;
             var currentWeek = currentYear;
             for (let a of arr) {
-                date = "" + a;
+                count++;
+                date = "" + a[0];
                 month = date.substring(4, 7);
-                var thisDate = date.substring(0, 4) +
-                    "/" +
-                    MONTHS[month] +
-                    "/" +
-                    date.substring(8, 10);
+                if (date.substring(11, 15) == "2020") {
+                    countRecent++;
+                }
+                var thisDate = date.substring(11, 15) + "/" + MONTHS[month] + "/" + date.substring(8, 10);
                 var diffYear = Math.abs(new Date(thisDate).getTime() - new Date(currentYear).getTime());
                 var diffWeek = Math.abs(new Date(thisDate).getTime() - new Date(currentWeek).getTime());
                 var diffMonth = Math.abs(new Date(thisDate).getTime() - new Date(currentMonth).getTime());
                 if (diffYear < 31104000000) {
+                    severityYear += a[1];
                     yearCount++;
                 }
                 else {
                     if (yearCount > 0) {
+                        distSeverityYear.push(severityYear / yearCount);
                         distYear.push(yearCount);
                     }
-                    yearCount = 0;
+                    ;
+                    severityYear = a[1];
+                    yearCount = 1;
                     currentYear = thisDate;
                 }
                 if (diffWeek < 604800000) {
+                    severityWeek += a[1];
                     weekCount++;
                 }
                 else {
                     if (weekCount > 0) {
+                        distSeverityWeek.push(severityWeek / weekCount);
                         distWeek.push(weekCount);
                     }
-                    weekCount = 0;
+                    ;
+                    severityWeek = a[1];
+                    weekCount = 1;
                     currentWeek = thisDate;
                 }
                 if (diffMonth < 2202000000) {
+                    severityMonth += a[1];
                     monthCount++;
                 }
                 else {
                     if (monthCount > 0) {
+                        distSeverityMonth.push(severityMonth / monthCount);
                         distMonth.push(monthCount);
                     }
-                    monthCount = 0;
+                    ;
+                    monthCount = 1;
+                    severityMonth = a[1];
                     currentMonth = thisDate;
                 }
             }
             distYear.push(yearCount);
             distWeek.push(weekCount);
             distMonth.push(monthCount);
+            distSeverityWeek.push(severityWeek / weekCount);
+            distSeverityMonth.push(severityMonth / monthCount);
+            distSeverityYear.push(severityYear / yearCount);
             response.push({
                 recent_accidents: {
-                    avg_weekly: 1,
-                    avg_monthly: 1,
-                    avg_yearly: 1,
+                    avg_weekly: countRecent / 52,
+                    avg_monthly: countRecent / 12,
+                    avg_yearly: countRecent,
                 },
-                danger_index: 6,
+                danger_index: count,
                 distribution_weekly: distWeek,
                 distribution_monthly: distMonth,
                 distribution_yearly: distYear,
+                severity_weekly: distSeverityWeek,
+                severity_monthly: distSeverityMonth,
+                severity_yearly: distSeverityYear
             });
         }
         res.send(response);

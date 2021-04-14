@@ -18,7 +18,7 @@ const AverageCard = (props: AverageCardProps) => (
           fontSize: "10",
         }}
       >
-        Average Number of Accidents (2020):
+        Average Number of Accidents (Rounded):
       </div>
       <div
         style={{
@@ -57,10 +57,10 @@ const AverageCard = (props: AverageCardProps) => (
               marginTop: "15px",
               marginBottom: "0px",
               fontWeight: "bold",
-              fontSize: "40px",
+              fontSize: "30px",
             }}
           >
-            {props.avg_weekly}
+            {Math.floor(props.avg_weekly)}
           </div>
         </Card>
         <Card
@@ -87,10 +87,10 @@ const AverageCard = (props: AverageCardProps) => (
               marginTop: "15px",
               marginBottom: "0px",
               fontWeight: "bold",
-              fontSize: "40px",
+              fontSize: "30px",
             }}
           >
-            {props.avg_monthly}
+            {Math.floor(props.avg_monthly)}
           </div>
         </Card>
         <Card
@@ -117,10 +117,10 @@ const AverageCard = (props: AverageCardProps) => (
               marginTop: "15px",
               marginBottom: "0px",
               fontWeight: "bold",
-              fontSize: "40px",
+              fontSize: "30px",
             }}
           >
-            {props.avg_yearly}
+            {Math.floor(props.avg_yearly)}
           </div>
         </Card>
       </div>

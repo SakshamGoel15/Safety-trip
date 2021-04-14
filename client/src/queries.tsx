@@ -13,6 +13,7 @@ export interface ProcessedPathData {
   distribution_weekly: number[];
   distribution_monthly: number[];
   distribution_yearly: number[];
+  severity_yearly: number[];
 }
 
 export const fetchAccidentsData = async (polypaths: google.maps.LatLng[][]) => {
