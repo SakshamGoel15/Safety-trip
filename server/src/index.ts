@@ -161,7 +161,13 @@ const main = () => {
             var distYear: number[] = [];
             var distMonth: number[] = [];
             var distWeek: number[] = [];
+            var distSeverityWeek: number[] = [];
+            var distSeverityYear: number[] = [];
+            var distSeverityMonth: number[] = [];
             var yearCount = 0;
+            var severityWeek = 0;
+            var severityMonth = 0;
+            var severityYear = 0;
             var monthCount = 0;
             var countRecent = 0;
             var weekCount = 0;
@@ -182,37 +188,48 @@ const main = () => {
                 var diffWeek = Math.abs(new Date(thisDate).getTime() - new Date(currentWeek).getTime());
                 var diffMonth = Math.abs(new Date(thisDate).getTime() - new Date(currentMonth).getTime());
                 if (diffYear < 31104000000) {
+                    severityYear += a[1]
                     yearCount++;
                 } else {
                     if (yearCount > 0) {
+                        distSeverityYear.push(severityYear / yearCount)
                         distYear.push(yearCount);
                     };
-
+                    severityYear = a[1]
                     yearCount = 1;
                     currentYear = thisDate
                 }
                 if (diffWeek < 604800000) {
+                    severityWeek += a[1]
                     weekCount++;
                 } else {
                     if (weekCount > 0) {
+                        distSeverityWeek.push(severityWeek / weekCount)
                         distWeek.push(weekCount);
                     };
+                    severityWeek = a[1]
                     weekCount = 1;
                     currentWeek = thisDate
                 }
                 if (diffMonth < 2202000000) {
+                    severityMonth += a[1]
                     monthCount++;
                 } else {
                     if (monthCount > 0) {
+                        distSeverityMonth.push(severityMonth / monthCount)
                         distMonth.push(monthCount)
                     };
                     monthCount = 1;
+                    severityMonth = a[1]
                     currentMonth = thisDate
                 }
             }
             distYear.push(yearCount);
             distWeek.push(weekCount);
             distMonth.push(monthCount);
+            distSeverityWeek.push(severityWeek / weekCount)
+            distSeverityMonth.push(severityMonth / monthCount)
+            distSeverityYear.push(severityYear / yearCount)
             response.push({
                 recent_accidents: {
                     avg_weekly: countRecent / 52,
@@ -222,7 +239,10 @@ const main = () => {
                 danger_index: count,
                 distribution_weekly: distWeek,
                 distribution_monthly: distMonth,
-                distribution_yearly: distYear
+                distribution_yearly: distYear,
+                severity_weekly: distSeverityWeek,
+                severity_monthly: distSeverityMonth,
+                severity_yearly: distSeverityYear
             })
 
         }
