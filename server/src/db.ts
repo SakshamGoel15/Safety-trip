@@ -46,16 +46,14 @@ export const composeQuery = (
   path: GeoPair[],
   tableName: string = AccidentsTable
 ) => {
-  const header = "SELECT START_LAT, START_LNG, START_TIME, SEVERITY FROM (";
+  const header = `SELECT START_LAT, START_LNG, START_TIME, SEVERITY FROM (`;
   const footer = ")";
-  const body = path
-    .map((geo) => NaiveQuery(geo, AccidentsTable))
-    .join(" UNION ");
+  const body = path.map((geo) => NaiveQuery(geo, tableName)).join(" UNION ");
   return [header, body, footer].join("");
 };
 
 export const ZipcodeQuery = (zip: string[]) =>
-  `SELECT * FROM ${AccidentsTable} WHERE ZIPCODE IN (${zip
+  `SELECT * FROM ${AccidentsTable} WHERE ${AccidentsTable}.ZIPCODE IN (${zip
     .map((e) => `('${e}')`)
     .join()})`;
 

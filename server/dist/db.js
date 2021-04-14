@@ -53,15 +53,13 @@ exports.AccidentsTable = "adolago.US_TRAFFIC_ACCIDENTS";
 const NaiveQuery = (geo, tableName = exports.AccidentsTable) => `(SELECT * FROM ${tableName} WHERE ABS(${tableName}.START_LAT - (${geo.lat})) < 0.001 AND ABS(${tableName}.START_LNG - (${geo.lng})) < 0.001)`;
 exports.NaiveQuery = NaiveQuery;
 const composeQuery = (path, tableName = exports.AccidentsTable) => {
-    const header = "SELECT START_LAT, START_LNG, START_TIME, SEVERITY FROM (";
+    const header = `SELECT START_LAT, START_LNG, START_TIME, SEVERITY FROM (`;
     const footer = ")";
-    const body = path
-        .map((geo) => exports.NaiveQuery(geo, exports.AccidentsTable))
-        .join(" UNION ");
+    const body = path.map((geo) => exports.NaiveQuery(geo, tableName)).join(" UNION ");
     return [header, body, footer].join("");
 };
 exports.composeQuery = composeQuery;
-const ZipcodeQuery = (zip) => `SELECT * FROM ${exports.AccidentsTable} WHERE ZIPCODE IN (${zip
+const ZipcodeQuery = (zip) => `SELECT * FROM ${exports.AccidentsTable} WHERE ${exports.AccidentsTable}.ZIPCODE IN (${zip
     .map((e) => `('${e}')`)
     .join()})`;
 exports.ZipcodeQuery = ZipcodeQuery;
