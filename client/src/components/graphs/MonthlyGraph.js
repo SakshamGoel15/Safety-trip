@@ -22,66 +22,68 @@ const state = {
     },
   ],
 };
-export default class MonthlyGraph extends React.Component {
-  render() {
-    return (
+const MonthlyGraph = (props) => {
+  state.datasets[0].data = props.data;
+
+  return (
+    <div>
       <div>
-        <div>
-          <Bar
-            data={state}
-            width={290}
-            height={250}
-            options={{
-              layout: {
-                padding: {
-                  left: 5,
-                  right: 15,
-                  top: 10,
-                  bottom: 0,
-                },
+        <Bar
+          data={state}
+          width={290}
+          height={250}
+          options={{
+            layout: {
+              padding: {
+                left: 5,
+                right: 15,
+                top: 10,
+                bottom: 0,
               },
-              maintainAspectRatio: false,
-              title: {
-                display: true,
-                text: "MONTHLY TRENDS",
-                fontSize: 14,
-                color: "#000000",
-              },
-              legend: {
-                display: "false",
-                position: "top",
-              },
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      autoskip: true,
-                      maxTicksLimit: 10,
-                      beginAtZero: true,
-                    },
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Hundreds of Accidents",
-                    },
+            },
+            maintainAspectRatio: false,
+            title: {
+              display: true,
+              text: "MONTHLY TRENDS",
+              fontSize: 14,
+              color: "#000000",
+            },
+            legend: {
+              display: "false",
+              position: "top",
+            },
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    autoskip: true,
+                    maxTicksLimit: 10,
+                    beginAtZero: true,
                   },
-                ],
-              },
-            }}
-          />
-        </div>
-        <div>
-          <Button
-            style={{
-              color: "blue",
-              backgroundColor: "white",
-              textAlign: "end",
-              width: "280px",
-            }}
-          >
-            <Link href="/Month">Click here for more</Link>
-          </Button>
-        </div>
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Number of Accidents",
+                  },
+                },
+              ],
+            },
+          }}
+        />
       </div>
-    );
-  }
-}
+      {/* <div>
+        <Button
+          style={{
+            color: "blue",
+            backgroundColor: "white",
+            textAlign: "end",
+            width: "280px",
+          }}
+        >
+          <Link href="/Month">Click here for more</Link>
+        </Button>
+      </div> */}
+    </div>
+  );
+};
+
+export default MonthlyGraph;

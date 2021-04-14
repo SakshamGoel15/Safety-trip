@@ -7,7 +7,7 @@ import Link from "../Router/Link";
 
 const state = {
   /*labele represent the data on the x-axis*/
-  labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+  labels: ["SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT"],
   datasets: [
     {
       label: "NO OF ACCIDENT",
@@ -18,11 +18,16 @@ const state = {
       barPercentage: 0.9,
       hoverBackgroundColor: "#75D9FD",
       hoverBorderColor: "#75D9FD",
-      data: [75, 59, 18, 67, 76, 95],
+      data: [75, 59, 18, 67, 76, 95, 66],
     },
   ],
 };
-const YearlyGraph = (props) => {
+
+export interface GraphProps {
+  data: number[];
+}
+
+const WeeklyGraph = (props: GraphProps) => {
   state.datasets[0].data = props.data;
 
   return (
@@ -47,7 +52,7 @@ const YearlyGraph = (props) => {
             maintainAspectRatio: false,
             title: {
               display: true,
-              text: "TRENDS OVER THE YEARS",
+              text: "WEEKLY TRENDS",
               fontSize: 14,
               color: "#000000",
             },
@@ -82,11 +87,13 @@ const YearlyGraph = (props) => {
             width: "280px",
           }}
         >
-          <Link href="/Year">Click here for more</Link>
+          <Link href="/Week" className="">
+            Click here for more
+          </Link>
         </Button>
       </div> */}
     </div>
   );
 };
 
-export default YearlyGraph;
+export default WeeklyGraph;

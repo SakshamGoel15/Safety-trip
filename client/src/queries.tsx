@@ -18,6 +18,7 @@ export interface ProcessedPathData {
 export const fetchAccidentsData = async (polypaths: google.maps.LatLng[][]) => {
   const url = "http://localhost:8080/process";
 
+  console.log(polypaths);
   if (polypaths.length === 0) return [];
 
   const res = await axios.post<ProcessedPathData[]>(url, {

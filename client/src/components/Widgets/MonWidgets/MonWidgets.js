@@ -51,9 +51,9 @@ export default class MonWidgets extends React.Component {
         <Card style={{ marginLeft: "50px" }}>
           <MonthlySeverity />
         </Card>
-        <Card>
+        {/* <Card>
           <MonCalendar />
-        </Card>
+        </Card> */}
       </React.Fragment>
     );
   }

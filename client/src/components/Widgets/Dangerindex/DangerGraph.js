@@ -80,7 +80,7 @@ export default class DangerGraph extends React.Component {
                     },
                     scaleLabel: {
                       display: true,
-                      labelString: "Hundreds of Accidents",
+                      labelString: "Number of Accidents",
                     },
                   },
                 ],

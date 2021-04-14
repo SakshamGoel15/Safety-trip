@@ -51,9 +51,9 @@ export default class WeekWidgets extends React.Component {
         <Card style={{ width: "300px", marginLeft: "50px" }}>
           <WeekSeverity />
         </Card>
-        <Card>
+        {/* <Card>
           <WeekCalendar />
-        </Card>
+        </Card> */}
       </React.Fragment>
     );
   }

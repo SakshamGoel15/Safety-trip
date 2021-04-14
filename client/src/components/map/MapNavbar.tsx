@@ -77,12 +77,14 @@ const MapNavbar = (props: mapNavbarProps) => {
       </header>
       {showBody && (
         <main className="mapnavbar-main-body">
-          {props.queryStatus !== "success" ? (
+          {props.queryStatus !== "success" ||
+          props.pathsData === undefined ||
+          props.pathsData.length === 0 ? (
             props.queryStatus
           ) : (
-            <div>
+            <div style={{ padding: "5px" }}>
               <Route path="/">
-                <Widgets />
+                <Widgets data={props.pathsData[props.selectedPath]} />
               </Route>
               <Route path="/DangerIndex">
                 <DangerIndex />

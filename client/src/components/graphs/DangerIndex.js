@@ -3,7 +3,7 @@ import ReactSpeedometer from "react-d3-speedometer";
 import { Button } from "semantic-ui-react";
 import Link from "../Router/Link";
 
-const DangerIndex = () => {
+const DangerIndex = (props) => {
   const Severity = () => {
     //Enter the No of accidents[0,1,2,3] according to severity{1,2,3,4}
     const Accident = [200, 2, 125, 3];
@@ -65,20 +65,19 @@ const DangerIndex = () => {
         />
       </div>
       <div>
-      <Button
-        style={{
-          color: "blue",
-          backgroundColor: "white",
-          textAlign: "end",
-          width: "280px",
-        }}
-      >
-        <Link href="/DangerIndex">Click here for more</Link>
-      </Button>
-    </div>
+        <Button
+          style={{
+            color: "blue",
+            backgroundColor: "white",
+            textAlign: "end",
+            width: "280px",
+          }}
+        >
+          <Link href="/DangerIndex">Click here for more</Link>
+        </Button>
+      </div>
     </div>
   );
 };
 
 export default DangerIndex;
-

@@ -55,9 +55,9 @@ export default class YearlyWidgets extends React.Component {
         <Card style={{ width: "300px", marginLeft: "50px" }}>
           <YearServerityGraph />
         </Card>
-        <Card>
+        {/* <Card>
           <MonCalendar />
-        </Card>
+        </Card> */}
       </React.Fragment>
     );
   }
