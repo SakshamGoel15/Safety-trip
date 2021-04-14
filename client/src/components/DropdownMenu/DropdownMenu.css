@@ -34,3 +34,11 @@
   display: block;
   cursor: pointer;
 }
+
+.color-splash {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin: 0 3px;
+  border-radius: 999px;
+}

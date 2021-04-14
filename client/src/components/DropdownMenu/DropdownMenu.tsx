@@ -1,4 +1,5 @@
 import React from "react";
+import { Colors } from "../map/PathColors";
 import "./DropdownMenu.css";
 
 interface dropdownProps {
@@ -11,6 +12,12 @@ const DropdownMenu = (props: dropdownProps) => {
   return (
     <div className="dropdown">
       <div className="dropdown-selected-item">
+        <span
+          className="color-splash"
+          style={{
+            backgroundColor: Colors[props.selectedIndex % Colors.length],
+          }}
+        />
         {props.items[props.selectedIndex]} ▾
       </div>
       <div className="dropdown-content">
@@ -20,6 +27,10 @@ const DropdownMenu = (props: dropdownProps) => {
             key={i}
             onClick={() => props.setSelectedIndex(i)}
           >
+            <span
+              className="color-splash"
+              style={{ backgroundColor: Colors[i % Colors.length] }}
+            />
             {e}
           </div>
         ))}

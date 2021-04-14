@@ -4,6 +4,7 @@ import {
   DirectionsRenderer,
   DirectionsService,
 } from "@react-google-maps/api";
+import { Colors } from "./PathColors";
 import { uf_coords, mapContainerStyle } from "../../assets/map_info";
 import { mapPathEndpoints } from "./Map.d";
 
@@ -56,11 +57,7 @@ const Map = (props: mapProps) => {
             routeIndex={i}
             options={{
               polylineOptions: {
-                strokeColor:
-                  props.selectedPathIndex === i
-                    ? "rgb(16, 108, 179)"
-                    : "rgba(83, 169, 235, 0.7)",
-                strokeWeight: props.selectedPathIndex === i ? 10 : 5,
+                strokeColor: Colors[i % Colors.length],
               },
             }}
           />

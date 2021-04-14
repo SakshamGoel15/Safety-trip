@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
 import { ProcessedPathData } from "../../queries";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import { QueryStatus } from "react-query";
 import { mapPathEndpoints } from "./Map.d";
 import "./MapNavbar.css";
-import { QueryStatus } from "react-query";
 
 interface mapNavbarProps {
   onSearch: React.Dispatch<React.SetStateAction<mapPathEndpoints>>;
