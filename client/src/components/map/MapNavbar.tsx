@@ -3,7 +3,7 @@ import Widgets from "../Widgets/Widgets";
 import WeekWidgets from "../Widgets/WeekWidgets/WeekWidgets";
 import MonWidgets from "../Widgets/MonWidgets/MonWidgets";
 import YearlyWidgets from "../Widgets/YearlyWidgets/YearlyWidgets";
-import DangerIndex from "../Widgets/Dangerindex/DangerWidgets";
+import DangerWidgets from "../Widgets/Dangerindex/DangerWidgets";
 import Route from "../Router/Route";
 
 import { ProcessedPathData } from "../../queries";
@@ -87,7 +87,7 @@ const MapNavbar = (props: mapNavbarProps) => {
                 <Widgets data={props.pathsData[props.selectedPath]} />
               </Route>
               <Route path="/DangerIndex">
-                <DangerIndex />
+                <DangerWidgets />
               </Route>
               <Route path="/Month">
                 <MonWidgets />

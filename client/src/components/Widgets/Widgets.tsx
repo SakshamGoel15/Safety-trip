@@ -13,8 +13,6 @@ interface WidgetsProps {
 }
 
 const Widgets = (props: WidgetsProps) => {
-  console.log(props);
-
   return (
     <React.Fragment>
       <Card style={{ maxHeight: "5000px", marginLeft: "45px" }}>

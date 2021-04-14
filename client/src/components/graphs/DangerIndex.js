@@ -3,24 +3,20 @@ import ReactSpeedometer from "react-d3-speedometer";
 import { Button } from "semantic-ui-react";
 import Link from "../Router/Link";
 
+const computeDangerIndex = (danger_dist) => {
+  const sum = danger_dist.reduce((acc, curr) => acc + curr);
+  const weightedSum = danger_dist.reduce(
+    (acc, curr, index) => acc + (index + 1) * curr
+  );
+
+  return Math.floor(weightedSum / sum);
+};
+
+const Severity = (danger_dist) => {
+  return 25 + 50 * computeDangerIndex(danger_dist);
+};
+
 const DangerIndex = (props) => {
-  const Severity = () => {
-    //Enter the No of accidents[0,1,2,3] according to severity{1,2,3,4}
-    const Accident = [200, 2, 125, 3];
-    // const Lagest_Value = Math.max(...Accident);
-    const Value_For_ReactSpeedometer = [25, 75, 125, 175];
-    const Index = Accident.indexOf(Math.max(...Accident));
-    console.log("print", Index);
-    if (Index === 0) {
-      return Value_For_ReactSpeedometer[0];
-    } else if (Index === 1) {
-      return Value_For_ReactSpeedometer[1];
-    } else if (Index === 2) {
-      return Value_For_ReactSpeedometer[2];
-    } else if (Index === 3) {
-      return Value_For_ReactSpeedometer[3];
-    }
-  };
   return (
     <div>
       <div>
@@ -28,7 +24,7 @@ const DangerIndex = (props) => {
           width={290}
           height={190}
           needleHeightRatio={0.5}
-          value={Severity()}
+          value={Severity([200, 2, 125, 3])}
           maxValue={200}
           segments={4}
           currentValueText="Danger Index"
