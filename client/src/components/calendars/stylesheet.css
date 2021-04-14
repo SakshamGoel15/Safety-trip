@@ -2,6 +2,9 @@
     box-sizing: border-box;
     font-size: 1rem;
     max-width: 400px;
+    padding-left: 5;
+    padding:5 ;
+    
   }
   
   .cal .header {
@@ -25,6 +28,7 @@
   
   .cal .body {
     border: 1px solid var(--light-blue);
+    max-width: 5;
   }
   
   .cal .header .previous {
@@ -91,6 +95,7 @@
   }
   
   .e-schedule .e-appointment-details{
+    
     padding: 0!important;
   }
   
@@ -100,7 +105,7 @@
     font-weight: 500;
     padding-top: 3px;
     padding-bottom: 10px ;
-    padding-left: 30px;
+    padding-left: 10px;
     /* padding-right:20px;  */
     ;
   }

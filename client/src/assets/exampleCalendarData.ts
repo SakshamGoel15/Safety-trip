@@ -10,10 +10,11 @@ export interface calendarData {
 const data: calendarData[] = [
   {
     Id: 1,
-    // subject shows total no of accident on 11/01/2016
+    // subject shows case ID 
     Subject: "2",
-    EndTime: new Date(2016, 0, 11),
-    StartTime: new Date(2016, 0, 11),
+    //(year month date Hour min)
+    EndTime: new Date(2016, 0, 11, 13, 30 ),
+    StartTime: new Date(2016, 0, 11, 11, 0),
     Location: "Florida",
     Description: "Due to rain",
   },
